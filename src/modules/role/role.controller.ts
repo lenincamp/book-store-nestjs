@@ -1,7 +1,6 @@
 import { UpdateRoleDto } from './dtos/update-role.dto';
 import { CreateRoleDto } from './dtos/create-role.dto';
 import { ReadRoleDto } from './dtos/read-role.dto';
-import { Role } from './role.entity';
 import { RoleService } from './role.service';
 import {
   Controller,

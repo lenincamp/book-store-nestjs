@@ -1,3 +1,4 @@
+import { Book } from './../book/book.entity';
 import { UserDetails } from './user-details.entity';
 import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, ManyToMany, JoinTable, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Role } from '../role/role.entity';
@@ -27,6 +28,10 @@ export class User extends BaseEntity {
   @ManyToMany(type => Role, role => role.users, { eager: true })
   @JoinTable({ name: 'user_roles' })
   roles: Role[];
+
+  @ManyToMany(() => Book, book => book.authors)
+  @JoinTable({ name: 'user_books' })
+  books: Book[];
 
   @Column({ type: 'varchar', default: 'ACTIVE', nullable: false, length: 8 })
   status: string;

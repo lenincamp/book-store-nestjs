@@ -1,3 +1,5 @@
+import { LoggedInDto } from './dto/logged-in.dto';
+import { plainToClass } from 'class-transformer';
 import { RoleType } from './../role/role-type.enum';
 import { IJwtPayload } from './jwt-payload.interface';
 import { SignInDto } from './dto/signin.dto';
@@ -30,7 +32,7 @@ export class AuthService {
     return this._authRepository.signUp(signUpDto);
   }
 
-  async signIn(signInDto: SignInDto): Promise<{ token: string }> {
+  async signIn(signInDto: SignInDto): Promise<LoggedInDto> {
     const { username, password } = signInDto;
     const user: User = await this._authRepository.findOne({
       where: { username }
@@ -52,7 +54,7 @@ export class AuthService {
       roles: user.roles.map(role => role.name as RoleType)
     }
 
-    const token = await this._jwtService.sign(payload);
-    return { token };
+    const token = this._jwtService.sign(payload);
+    return plainToClass(LoggedInDto, { token, user });
   }
 }

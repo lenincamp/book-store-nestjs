@@ -18,11 +18,11 @@ export class UserService {
     private readonly _roleRepository: RoleRepository
   ) { }
 
-  async get(id: number): Promise<ReadUserDto> {
-    if (!id) {
+  async get(userId: number): Promise<ReadUserDto> {
+    if (!userId) {
       throw new BadRequestException('id must be sent');
     }
-    const user: User = await this._userRepository.findOne(id, { where: { status: status.ACTIVE } });
+    const user: User = await this._userRepository.findOne(userId, { where: { status: status.ACTIVE } });
     if (!user) {
       throw new NotFoundException();
     }

@@ -1,8 +1,5 @@
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ReadUserDto } from './dto/read-user.dto';
-import { RoleType } from './../role/role-type.enum';
-import { RoleGuard } from './../role/guards/role.guard';
-import { User } from './user.entity';
 import { UserService } from './user.service';
 import {
   Controller,
@@ -16,7 +13,6 @@ import {
   Delete
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from '../role/decorators/role.decorator';
 
 @Controller('users')
 export class UserController {
@@ -29,7 +25,7 @@ export class UserController {
     return this._userService.get(userId);
   }
 
-  @UseGuards(AuthGuard())
+  // @UseGuards(AuthGuard())
   @Get()
   getUsers(): Promise<ReadUserDto[]> {
     return this._userService.getAll();
