@@ -1,3 +1,4 @@
+import { RoleType } from './../role/role-type.enum';
 import { RoleGuard } from './../role/guards/role.guard';
 import { User } from './user.entity';
 import { UserService } from './user.service';
@@ -19,8 +20,8 @@ export class UserController {
   constructor(private readonly _userService: UserService) { }
 
   @Get(':id')
-  @Roles('ADMINISTRATOR')
-  @UseGuards(AuthGuard(), RoleGuard)
+  // @Roles(RoleType.ADMIN)
+  // @UseGuards(AuthGuard(), RoleGuard)
   async getUser(@Param('id', ParseIntPipe) id: number): Promise<User> {
     return await this._userService.get(id);
   }
@@ -49,7 +50,6 @@ export class UserController {
   }
 
   @Post('set-role/:userId/:roleId')
-  // @ROLES(['ADMIN'])
   async setRoleToUser(
     @Param('userId', ParseIntPipe) userId: number,
     @Param('roleId', ParseIntPipe) roleId: number
