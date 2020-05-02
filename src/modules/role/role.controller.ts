@@ -1,3 +1,6 @@
+import { UpdateRoleDto } from './dtos/update-role.dto';
+import { CreateRoleDto } from './dtos/create-role.dto';
+import { ReadRoleDto } from './dtos/read-role.dto';
 import { Role } from './role.entity';
 import { RoleService } from './role.service';
 import {
@@ -14,30 +17,28 @@ import {
 export class RoleController {
   constructor(private readonly _roleService: RoleService) { }
 
-  @Get(':id')
-  async getRole(@Param('id', ParseIntPipe) id: number): Promise<Role> {
-    return await this._roleService.get(id);
+  @Get(':roleId')
+  getRole(@Param('roleId', ParseIntPipe) roleId: number): Promise<ReadRoleDto> {
+    return this._roleService.get(roleId);
   }
 
   @Get()
-  async getRoles(): Promise<Role[]> {
-    return await this._roleService.getAll();
+  getRoles(): Promise<ReadRoleDto[]> {
+    return this._roleService.getAll();
   }
 
   @Post()
-  async createRole(@Body() role: Role): Promise<Role> {
-    return await this._roleService.create(role);
+  createRole(@Body() role: Partial<CreateRoleDto>): Promise<ReadRoleDto> {
+    return this._roleService.create(role);
   }
 
-  @Put(':id')
-  async updateRole(@Param('id', ParseIntPipe) id: number, @Body() role: Role) {
-    await this._roleService.update(id, role);
-    return true;
+  @Put(':roleId')
+  updateRole(@Param('roleId', ParseIntPipe) roleId: number, @Body() role: Partial<UpdateRoleDto>) {
+    return this._roleService.update(roleId, role);
   }
 
-  @Put(':id')
-  async deleteRole(@Param('id', ParseIntPipe) id: number) {
-    await this._roleService.delete(id);
-    return true;
+  @Put(':roleId')
+  deleteRole(@Param('roleId', ParseIntPipe) roleId: number) {
+    return this._roleService.delete(roleId);
   }
 }
